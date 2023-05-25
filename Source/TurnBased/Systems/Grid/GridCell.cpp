@@ -52,12 +52,12 @@ AActor* AGridCell::GetPlacedActor()
 	return PlacedActor;
 }
 
-void AGridCell::SetPlacedActor(AActor* Actor)
+void AGridCell::SetPlacedActor(AGridActor* Actor)
 {
 	PlacedActor = Actor;
 }
 
-const AGridCell* AGridCell::GetNeighbor(EGridNeighborDirections Direction)
+AGridCell* AGridCell::GetNeighbor(EGridNeighborDirections Direction)
 {
 	switch (Direction)
 	{
@@ -86,4 +86,10 @@ void AGridCell::SetNeighbor(EGridNeighborDirections Direction, AGridCell* GridCe
 		West = GridCell;
 		break;
 	}
+}
+
+void AGridCell::SetFree()
+{
+	bIsAvailable = true;
+	PlacedActor = nullptr;
 }

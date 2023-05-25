@@ -7,6 +7,8 @@
 #include "GameFramework/Actor.h"
 #include "GridSystem.generated.h"
 
+class AStarAlgorithm;
+
 UCLASS()
 class TURNBASED_API AGridSystem : public AActor
 {
@@ -25,16 +27,23 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere)
+	AStarAlgorithm* AStar;
+
+	UPROPERTY(VisibleAnywhere)
 	TArray<AGridCell*> GridCells;
-	int SystemWidth,SystemHeight;
+	int SystemColumn,SystemRow;
 	FVector2D SystemStartPosition;
 
 	UPROPERTY(EditAnywhere);
 	TSubclassOf<AGridCell> BP_GridCell;
+	UPROPERTY(EditAnywhere)
+	AGridActor* TestPlacementActor;
 	
-	void CreateGrids(FVector2D StartPos, int Height, int Width);
+	void CreateGrids(FVector2D StartPos, int Row, int Column);
 	
 	void SetNeighbors();
+
+	void PlaceAnActor(AGridActor* Actor, FVector2D Coord);
 
 	AGridCell* FindGridByCoord(const FVector2D Coord);
 };

@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GridCell.h"
 #include "GameFramework/Actor.h"
 #include "GridActor.generated.h"
+
+
+class AGridCell;
 
 UCLASS()
 class TURNBASED_API AGridActor : public AActor
@@ -31,5 +33,4 @@ public:
 public:
 	const AGridCell* GetGridCellUnderActor();
 	void SetGridCellUnderActor(AGridCell* GridCell);
-	
 };

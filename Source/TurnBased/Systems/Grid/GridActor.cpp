@@ -33,4 +33,3 @@ void AGridActor::SetGridCellUnderActor(AGridCell* GridCell)
 {
 	GridCellUnderActor = GridCell;
 }
-

@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GridActor.h"
 #include "GameFramework/Actor.h"
 #include "Enums/GridNeighborDirections.h"
+#include "TurnBased/Algorithms/Pathfinding/AStar/AStarCellProperties.h"
 #include "GridCell.generated.h"
 
 UCLASS()
@@ -23,12 +25,12 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
 private:
 	bool bIsAvailable = true;
 	UPROPERTY(VisibleAnywhere)
 	FVector2D Coord;
-	AActor* PlacedActor = nullptr;
+	AGridActor* PlacedActor = nullptr;
 
 	//Neighbors
 	UPROPERTY(VisibleAnywhere)
@@ -41,6 +43,9 @@ private:
 	AGridCell* West = nullptr;
 
 public:
+	AStarCellProperties AStarProperties;
+	
+public:
 	bool GetIsAvailable();
 	void SetIsAvailable(bool State);
 	
@@ -49,8 +54,10 @@ public:
 	void SetCoord(int X, int Y);
 	
 	AActor* GetPlacedActor();
-	void SetPlacedActor(AActor* Actor);
+	void SetPlacedActor(AGridActor* Actor);
 	
-	const AGridCell* GetNeighbor (EGridNeighborDirections Direction);
+	AGridCell* GetNeighbor (EGridNeighborDirections Direction);
 	void SetNeighbor (EGridNeighborDirections Direction, AGridCell* GridCell);
+
+	void SetFree();
 };
