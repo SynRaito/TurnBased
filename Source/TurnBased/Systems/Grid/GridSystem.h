@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TurnBased/Utilities/TimeManagement/Coroutine/TimeWrapper.h"
 #include "CoreMinimal.h"
 #include "GridCell.h"
 #include "GameFramework/Actor.h"
@@ -25,9 +26,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(VisibleAnywhere)
-	AStarAlgorithm* AStar;
+	
 
 	UPROPERTY(VisibleAnywhere)
 	TArray<AGridCell*> GridCells;

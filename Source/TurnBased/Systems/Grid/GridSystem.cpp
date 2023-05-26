@@ -1,11 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "GridSystem.h"
+
+#include <functional>
 
 #include "Constants.h"
 #include "GridCell.h"
 #include "TurnBased/Algorithms/Pathfinding/AStar/AStarAlgorithm.h"
+#include "TurnBased/Utilities/TimeManagement/Coroutine/CoroutineManager.h"
 
 // Sets default values
 AGridSystem::AGridSystem()
@@ -19,21 +21,20 @@ void AGridSystem::BeginPlay()
 {
 	Super::BeginPlay();
 	CreateGrids(FVector2D(0, 0), 10, 10);
-	AStar = GetWorld()->SpawnActor<AStarAlgorithm>();	
+	UAStarAlgorithm* AStar = NewObject<UAStarAlgorithm>();
 	GridCells[1]->SetIsAvailable(false);
 	GridCells[12]->SetIsAvailable(false);
 	GridCells[22]->SetIsAvailable(false);
 	GridCells[32]->SetIsAvailable(false);
-	TArray<AGridCell*> Path = AStar->AStarSearch(this , GridCells[0] , GridCells.Last());
+
+	TArray<AGridCell*> Path = AStar->AStarSearch(this, GridCells[0], GridCells.Last());
 
 	for (auto GridCell : Path)
 	{
-		GridCell->SetActorLocation(GridCell->GetActorLocation() + FVector(0,0,50));
+		GridCell->SetActorLocation(GridCell->GetActorLocation() + FVector(0, 0, 50));
 	}
-
-	AStar->Destroy();
-	
 }
+
 
 // Called every frame
 void AGridSystem::Tick(float DeltaTime)

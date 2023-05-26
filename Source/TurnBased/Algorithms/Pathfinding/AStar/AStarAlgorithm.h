@@ -11,12 +11,9 @@
  */
 
 UCLASS()
-class TURNBASED_API AStarAlgorithm : public AActor
+class TURNBASED_API UAStarAlgorithm : public UObject
 {
 	GENERATED_BODY()
-	
-public:
-	AStarAlgorithm();
 
 public:
 	TArray<AGridCell*> AStarSearch(AGridSystem* GridSystem, AGridCell* Source, AGridCell* Destination);
