@@ -46,6 +46,8 @@ private:
 private:
 	UFUNCTION()
 	void CheckTarget();
+	UFUNCTION()
+	void HandleMovement();
 	
 public:
 	UFUNCTION()
