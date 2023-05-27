@@ -47,7 +47,7 @@ private:
 	UFUNCTION()
 	void CheckTarget();
 	UFUNCTION()
-	void HandleMovement();
+	void HandleMovement(float DeltaTime);
 	
 public:
 	UFUNCTION()

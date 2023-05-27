@@ -22,7 +22,7 @@ void UGridMovement::BeginPlay()
 
 	// ...
 
-	HandleMovement();
+	
 }
 
 
@@ -30,7 +30,8 @@ void UGridMovement::BeginPlay()
 void UGridMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+
+	HandleMovement(DeltaTime);
 }
 
 void UGridMovement::AddTarget(AGridCell* TargetGridCell)
@@ -58,7 +59,7 @@ void UGridMovement::CheckTarget()
 	}
 }
 
-void UGridMovement::HandleMovement()
+void UGridMovement::HandleMovement(float DeltaTime)
 {
 	if(isMoving)
 	{
