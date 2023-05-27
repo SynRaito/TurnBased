@@ -21,7 +21,6 @@ void UGridMovement::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
 }
 
 
@@ -30,6 +29,59 @@ void UGridMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// Movement
+
+	if(isMoving)
+	{
+		if(HasArrived())
+		{
+			if(TargetQueue.IsEmpty())
+			{
+				isMoving = false;
+			}
+			else
+			{
+				StartPosition = GetOwner()->GetActorLocation();
+				TargetQueue.Dequeue(TargetPosition);
+			}
+		}
+		else
+		{
+			FVector CurrentLocation = GetOwner()->GetActorLocation();
+			GetOwner()->SetActorLocation(ClampVector(CurrentLocation + (TargetPosition - StartPosition) * DeltaTime , StartPosition , TargetPosition));
+			//isMoving = false;
+		}
+	}
+}
+
+void UGridMovement::AddTarget(AGridCell* TargetGridCell)
+{
+	TargetQueue.Enqueue(TargetGridCell->GetActorLocation());
+	CheckTarget();
+}
+
+void UGridMovement::AddTargets(TArray<AGridCell*> TargetGridCells)
+{
+	for (AGridCell* Cell : TargetGridCells)
+	{
+		TargetQueue.Enqueue(Cell->GetActorLocation());
+	}
+	CheckTarget();
+}
+
+void UGridMovement::CheckTarget()
+{
+	if(TargetPosition != GetOwner()->GetActorLocation() && isMoving == false)
+	{
+		StartPosition = GetOwner()->GetActorLocation();
+		TargetQueue.Dequeue(TargetPosition);
+		isMoving = true;
+	}
+}
+
+
+bool UGridMovement::HasArrived()
+{
+	return TargetPosition == GetOwner()->GetActorLocation();
 }
 

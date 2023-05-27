@@ -8,8 +8,6 @@
 #include "GameFramework/Actor.h"
 #include "GridSystem.generated.h"
 
-class AStarAlgorithm;
-
 UCLASS()
 class TURNBASED_API AGridSystem : public AActor
 {
@@ -43,6 +41,9 @@ public:
 	void SetNeighbors();
 
 	void PlaceAnActor(AGridActor* Actor, FVector2D Coord);
+
+	UFUNCTION(BlueprintCallable)
+	void MoveAnActor(AGridActor* Actor , AGridCell* TargetCell);
 
 	AGridCell* FindGridByCoord(const FVector2D Coord);
 };

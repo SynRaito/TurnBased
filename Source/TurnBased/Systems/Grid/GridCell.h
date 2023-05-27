@@ -30,6 +30,7 @@ private:
 	bool bIsAvailable = true;
 	UPROPERTY(VisibleAnywhere)
 	FVector2D Coord;
+	UPROPERTY(VisibleAnywhere)
 	AGridActor* PlacedActor = nullptr;
 
 	//Neighbors

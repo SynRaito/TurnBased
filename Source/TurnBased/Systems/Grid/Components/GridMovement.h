@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../GridCell.h"
+#include "TurnBased/Systems/Grid/GridSystem.h"
 #include "GridMovement.generated.h"
 
 
@@ -24,4 +26,33 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
+
+public:
+	UPROPERTY(VisibleAnywhere)
+	AGridSystem* GridSystem;
+	
+	UPROPERTY(VisibleAnywhere)
+	AGridCell* CurrentGrid;
+
+private:
+	bool isMoving = false;
+	UPROPERTY(VisibleAnywhere)
+	FVector TargetPosition;
+	UPROPERTY(VisibleAnywhere)
+	FVector StartPosition;
+
+	TQueue<FVector> TargetQueue;
+
+private:
+	UFUNCTION()
+	void CheckTarget();
+	
+public:
+	UFUNCTION()
+	void AddTarget(AGridCell* TargetGridCell);
+	UFUNCTION()
+	void AddTargets(TArray<AGridCell*> TargetGridCells);
+	
+	UFUNCTION(BlueprintCallable)
+	bool HasArrived();
 };

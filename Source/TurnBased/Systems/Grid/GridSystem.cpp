@@ -6,6 +6,7 @@
 
 #include "Constants.h"
 #include "GridCell.h"
+#include "Components/GridMovement.h"
 #include "TurnBased/Algorithms/Pathfinding/AStar/AStarAlgorithm.h"
 #include "TurnBased/Utilities/TimeManagement/Coroutine/CoroutineManager.h"
 
@@ -19,20 +20,17 @@ AGridSystem::AGridSystem()
 // Called when the game starts or when spawned
 void AGridSystem::BeginPlay()
 {
+	//TestCase
 	Super::BeginPlay();
 	CreateGrids(FVector2D(0, 0), 10, 10);
-	UAStarAlgorithm* AStar = NewObject<UAStarAlgorithm>();
 	GridCells[1]->SetIsAvailable(false);
 	GridCells[12]->SetIsAvailable(false);
 	GridCells[22]->SetIsAvailable(false);
 	GridCells[32]->SetIsAvailable(false);
 
-	TArray<AGridCell*> Path = AStar->AStarSearch(this, GridCells[0], GridCells.Last());
+	PlaceAnActor(TestPlacementActor,FVector2D(0,0));
 
-	for (auto GridCell : Path)
-	{
-		GridCell->SetActorLocation(GridCell->GetActorLocation() + FVector(0, 0, 50));
-	}
+	MoveAnActor(TestPlacementActor , GridCells.Last());
 }
 
 
@@ -99,6 +97,17 @@ void AGridSystem::PlaceAnActor(AGridActor* Actor, FVector2D Coord)
 
 	GridCell->SetPlacedActor(Actor);
 	GridCell->SetIsAvailable(false);
+}
+
+void AGridSystem::MoveAnActor(AGridActor* Actor, AGridCell* TargetCell)
+{
+	UAStarAlgorithm* AStarAlgorithm = GetWorld()->GetGameInstance()->GetSubsystem<class UAStarAlgorithm>();
+
+	TArray<AGridCell*> Path = AStarAlgorithm->AStarSearch(this,Actor->GridCellUnderActor,TargetCell);
+
+	UGridMovement* MovementComponent = Actor->FindComponentByClass<UGridMovement>();
+
+	MovementComponent->AddTargets(Path);
 }
 
 

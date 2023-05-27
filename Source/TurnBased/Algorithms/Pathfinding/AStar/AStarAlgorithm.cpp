@@ -204,5 +204,8 @@ TArray<AGridCell*> UAStarAlgorithm::TracePath(AGridSystem* GridSystem, AGridCell
 		CurrentCell = GridSystem->FindGridByCoord(FVector2D(CurrentCell->AStarProperties.ParentRow,
 		                                                    CurrentCell->AStarProperties.ParentColumn));
 	}
+	
+	Algo::Reverse(Path);
+	
 	return Path;
 }

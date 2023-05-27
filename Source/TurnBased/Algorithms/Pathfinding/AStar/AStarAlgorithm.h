@@ -11,7 +11,7 @@
  */
 
 UCLASS()
-class TURNBASED_API UAStarAlgorithm : public UObject
+class TURNBASED_API UAStarAlgorithm : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
