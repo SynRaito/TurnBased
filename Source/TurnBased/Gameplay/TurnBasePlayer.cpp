@@ -28,8 +28,12 @@ void ATurnBasePlayer::BeginPlay()
 	AGridActor* TestActor = GetWorld()->SpawnActor<AGridActor>(TestPlacementActor);
 	
 	GridSystem->PlaceAnActor(TestActor, FVector2D(0, 0));
+
+	AGridActor* TestActor2 = GetWorld()->SpawnActor<AGridActor>(TestPlacementActor);
 	
-	SelectedActor = TestActor;
+	GridSystem->PlaceAnActor(TestActor2, FVector2D(5, 5));
+	
+	//SelectedActor = TestActor;
 }
 
 // Called every frame
@@ -42,13 +46,4 @@ void ATurnBasePlayer::Tick(float DeltaTime)
 void ATurnBasePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
-void ATurnBasePlayer::TestRandomMove()
-{
-	UGridSystem* GridSystem = GetGameInstance()->GetSubsystem<UGridSystem>();
-
-	int Random = FMath::RandRange(0,GridSystem->GridCells.Num() - 1);
-	
-	GridSystem->MoveAnActor(SelectedActor, GridSystem->GridCells[Random]);
 }

@@ -28,13 +28,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadWrite)
 	AGridActor* SelectedActor;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AGridActor> TestPlacementActor;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AGridCell> GridCell;
-public:
-	UFUNCTION(BlueprintCallable)
-	void TestRandomMove();
 };
