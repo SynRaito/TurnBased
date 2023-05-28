@@ -29,25 +29,22 @@ public:
 
 public:
 	UPROPERTY(VisibleAnywhere)
-	AGridSystem* GridSystem;
-	
-	UPROPERTY(VisibleAnywhere)
 	AGridCell* CurrentGrid;
 
 private:
 	bool isMoving = false;
 	UPROPERTY(VisibleAnywhere)
-	FVector TargetPosition;
+	FVector TargetPosition = FVector(-1,-1,-1);
 	UPROPERTY(VisibleAnywhere)
 	FVector StartPosition;
-
+	
 	TQueue<FVector> TargetQueue;
 
 private:
 	UFUNCTION()
-	void CheckTarget();
-	UFUNCTION()
 	void HandleMovement(float DeltaTime);
+	UFUNCTION()
+	FVector ClampPosition(FVector Position , FVector PosOne , FVector PosTwo);
 	
 public:
 	UFUNCTION()

@@ -16,11 +16,11 @@ class TURNBASED_API UAStarAlgorithm : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
-	TArray<AGridCell*> AStarSearch(AGridSystem* GridSystem, AGridCell* Source, AGridCell* Destination);
+	TArray<AGridCell*> AStarSearch(UGridSystem* GridSystem, AGridCell* Source, AGridCell* Destination);
 	
 
 private:
 	double CalculateHValue(int Row, int Col, FVector2D Dest);
-	TArray<AGridCell*> TracePath(AGridSystem* GridSystem, AGridCell* Dest);
+	TArray<AGridCell*> TracePath(UGridSystem* GridSystem, AGridCell* Dest);
 	
 };

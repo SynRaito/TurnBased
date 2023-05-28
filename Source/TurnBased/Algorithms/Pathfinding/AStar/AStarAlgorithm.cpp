@@ -4,7 +4,7 @@
 #include "AStarAlgorithm.h"
 
 
-TArray<AGridCell*> UAStarAlgorithm::AStarSearch(AGridSystem* GridSystem, AGridCell* Source, AGridCell* Destination)
+TArray<AGridCell*> UAStarAlgorithm::AStarSearch(UGridSystem* GridSystem, AGridCell* Source, AGridCell* Destination)
 {
 	int i, j;
 
@@ -194,7 +194,7 @@ double UAStarAlgorithm::CalculateHValue(int Row, int Col, FVector2D Dest)
 		+ (Col - Dest.Y) * (Col - Dest.Y)));
 }
 
-TArray<AGridCell*> UAStarAlgorithm::TracePath(AGridSystem* GridSystem, AGridCell* Dest)
+TArray<AGridCell*> UAStarAlgorithm::TracePath(UGridSystem* GridSystem, AGridCell* Dest)
 {
 	TArray<AGridCell*> Path;
 	AGridCell* CurrentCell = Dest;
@@ -204,7 +204,7 @@ TArray<AGridCell*> UAStarAlgorithm::TracePath(AGridSystem* GridSystem, AGridCell
 		CurrentCell = GridSystem->FindGridByCoord(FVector2D(CurrentCell->AStarProperties.ParentRow,
 		                                                    CurrentCell->AStarProperties.ParentColumn));
 	}
-	
+	Path.RemoveAt(Path.Num()-1,1);
 	Algo::Reverse(Path);
 	
 	return Path;

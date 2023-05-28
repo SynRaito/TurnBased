@@ -9,34 +9,17 @@
 #include "GridSystem.generated.h"
 
 UCLASS()
-class TURNBASED_API AGridSystem : public AActor
+class TURNBASED_API UGridSystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
-	AGridSystem();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-	
-
 	UPROPERTY(VisibleAnywhere)
 	TArray<AGridCell*> GridCells;
 	int SystemColumn,SystemRow;
 	FVector2D SystemStartPosition;
-
-	UPROPERTY(EditAnywhere);
-	TSubclassOf<AGridCell> BP_GridCell;
-	UPROPERTY(EditAnywhere)
-	AGridActor* TestPlacementActor;
 	
-	void CreateGrids(FVector2D StartPos, int Row, int Column);
+	void CreateGrids(TSubclassOf<AGridCell> BP_GridCell ,FVector2D StartPos, int Row, int Column);
 	
 	void SetNeighbors();
 

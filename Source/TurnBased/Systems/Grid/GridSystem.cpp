@@ -10,41 +10,12 @@
 #include "TurnBased/Algorithms/Pathfinding/AStar/AStarAlgorithm.h"
 #include "TurnBased/Utilities/TimeManagement/Coroutine/CoroutineManager.h"
 
-// Sets default values
-AGridSystem::AGridSystem()
-{
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-}
 
-// Called when the game starts or when spawned
-void AGridSystem::BeginPlay()
-{
-	//TestCase
-	Super::BeginPlay();
-	CreateGrids(FVector2D(0, 0), 10, 10);
-	GridCells[1]->SetIsAvailable(false);
-	GridCells[12]->SetIsAvailable(false);
-	GridCells[22]->SetIsAvailable(false);
-	GridCells[32]->SetIsAvailable(false);
-
-	PlaceAnActor(TestPlacementActor,FVector2D(0,0));
-
-	MoveAnActor(TestPlacementActor , GridCells.Last());
-}
-
-
-// Called every frame
-void AGridSystem::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AGridSystem::CreateGrids(FVector2D StartPos, int Row, int Column)
+void UGridSystem::CreateGrids(TSubclassOf<AGridCell> BP_GridCell,FVector2D StartPos, int Row, int Column)
 {
 	if (StartPos.X == 0 && StartPos.Y == 0)
 	{
-		StartPos = FVector2D(GetActorLocation().X, GetActorLocation().Y);
+		StartPos = FVector2D(0,0);
 	}
 
 	SystemStartPosition = StartPos;
@@ -57,9 +28,8 @@ void AGridSystem::CreateGrids(FVector2D StartPos, int Row, int Column)
 		{
 			FVector PlacementPos = FVector(StartPos.X + w * Grid::FConstants::FGridSettings::HorizontalGridSize,
 			                               StartPos.Y + h * Grid::FConstants::FGridSettings::VerticalGridSpace, 0);
-			AGridCell* GridCell = GetWorld()->SpawnActor<AGridCell>(BP_GridCell, PlacementPos, GetActorRotation());
+			AGridCell* GridCell = GetWorld()->SpawnActor<AGridCell>(BP_GridCell, PlacementPos, FRotator(0,0,0));
 			GridCell->SetActorLocation(FVector(PlacementPos.X, PlacementPos.Y, 0));
-			GridCell->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 			GridCell->SetCoord(h, w);
 			GridCells.Add(GridCell);
 		}
@@ -68,7 +38,7 @@ void AGridSystem::CreateGrids(FVector2D StartPos, int Row, int Column)
 	SetNeighbors();
 }
 
-void AGridSystem::SetNeighbors()
+void UGridSystem::SetNeighbors()
 {
 	for (AGridCell* Element : GridCells)
 	{
@@ -88,7 +58,7 @@ void AGridSystem::SetNeighbors()
 	}
 }
 
-void AGridSystem::PlaceAnActor(AGridActor* Actor, FVector2D Coord)
+void UGridSystem::PlaceAnActor(AGridActor* Actor, FVector2D Coord)
 {
 	AGridCell* GridCell = FindGridByCoord(Coord);
 
@@ -99,7 +69,7 @@ void AGridSystem::PlaceAnActor(AGridActor* Actor, FVector2D Coord)
 	GridCell->SetIsAvailable(false);
 }
 
-void AGridSystem::MoveAnActor(AGridActor* Actor, AGridCell* TargetCell)
+void UGridSystem::MoveAnActor(AGridActor* Actor, AGridCell* TargetCell)
 {
 	UAStarAlgorithm* AStarAlgorithm = GetWorld()->GetGameInstance()->GetSubsystem<class UAStarAlgorithm>();
 
@@ -108,10 +78,12 @@ void AGridSystem::MoveAnActor(AGridActor* Actor, AGridCell* TargetCell)
 	UGridMovement* MovementComponent = Actor->FindComponentByClass<UGridMovement>();
 
 	MovementComponent->AddTargets(Path);
+
+	Actor->GridCellUnderActor = TargetCell;
 }
 
 
-AGridCell* AGridSystem::FindGridByCoord(const FVector2D Coord)
+AGridCell* UGridSystem::FindGridByCoord(const FVector2D Coord)
 {
 	for (AGridCell* Element : GridCells)
 	{
