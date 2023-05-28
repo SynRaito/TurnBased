@@ -3,6 +3,8 @@
 
 #include "GridMovement.h"
 
+#include "TurnBased/Library/GameplayMath.h"
+
 
 // Sets default values for this component's properties
 UGridMovement::UGridMovement()
@@ -56,7 +58,7 @@ void UGridMovement::HandleMovement(float DeltaTime)
 		else
 		{
 			FVector CurrentLocation = GetOwner()->GetActorLocation();
-			GetOwner()->SetActorLocation(ClampPosition(CurrentLocation + (TargetPosition - StartPosition) * DeltaTime,
+			GetOwner()->SetActorLocation(GameplayMath::ClampPosition(CurrentLocation + (TargetPosition - StartPosition) * DeltaTime,
 			                                         StartPosition, TargetPosition));
 		}
 	}
@@ -74,41 +76,4 @@ void UGridMovement::HandleMovement(float DeltaTime)
 bool UGridMovement::HasArrived()
 {
 	return TargetPosition == GetOwner()->GetActorLocation();
-}
-
-FVector UGridMovement::ClampPosition(FVector Position , FVector PosOne , FVector PosTwo)
-{
-	FVector Min,Max;
-	if(PosOne.X > PosTwo.X)
-	{
-		Min.X = PosTwo.X;
-		Max.X = PosOne.X;
-	}
-	else
-	{
-		Min.X = PosOne.X;
-		Max.X = PosTwo.X;
-	}
-	if(PosOne.Y > PosTwo.Y)
-	{
-		Min.Y = PosTwo.Y;
-		Max.Y = PosOne.Y;
-	}
-	else
-	{
-		Min.Y = PosOne.Y;
-		Max.Y = PosTwo.Y;
-	}
-	if(PosOne.Z > PosTwo.Z)
-	{
-		Min.Z = PosTwo.Z;
-		Max.Z = PosOne.Z;
-	}
-	else
-	{
-		Min.Z = PosOne.Z;
-		Max.Z = PosTwo.Z;
-	}
-
-	return ClampVector(Position , Min, Max);
 }

@@ -43,8 +43,6 @@ private:
 private:
 	UFUNCTION()
 	void HandleMovement(float DeltaTime);
-	UFUNCTION()
-	FVector ClampPosition(FVector Position , FVector PosOne , FVector PosTwo);
 	
 public:
 	UFUNCTION()
