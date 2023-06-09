@@ -13,11 +13,11 @@ UCLASS()
 class TURNBASED_API AGridActor : public AActor
 {
 	GENERATED_BODY()
-
+	
 public:
 	// Sets default values for this actor's properties
 	AGridActor();
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

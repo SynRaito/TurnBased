@@ -33,5 +33,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AGridActor> TestPlacementActor;
 	UPROPERTY(EditAnywhere)
+	TSubclassOf<AGridActor> TestGridObstacle;
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<AGridCell> GridCell;
+
+	UPROPERTY(BlueprintReadWrite , EditAnywhere)
+	UMaterial* SelectedPlayerActorMaterial;
+	UPROPERTY(BlueprintReadWrite , EditAnywhere)
+	UMaterial* DefaultPlayerActorMaterial;
 };

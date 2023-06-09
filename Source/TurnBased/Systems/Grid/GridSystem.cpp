@@ -79,7 +79,11 @@ void UGridSystem::MoveAnActor(AGridActor* Actor, AGridCell* TargetCell)
 
 	MovementComponent->AddTargets(Path);
 
+	Actor->GridCellUnderActor->SetIsAvailable(true);
+	
 	Actor->GridCellUnderActor = TargetCell;
+	
+	TargetCell->SetIsAvailable(false);
 }
 
 

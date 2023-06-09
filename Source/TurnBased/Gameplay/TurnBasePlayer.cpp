@@ -3,6 +3,8 @@
 
 #include "TurnBasePlayer.h"
 
+#include "SkeletalDebugRendering.h"
+#include "Engine/StaticMeshActor.h"
 #include "TurnBased/Systems/Grid/GridSystem.h"
 
 
@@ -20,10 +22,14 @@ void ATurnBasePlayer::BeginPlay()
 
 	UGridSystem* GridSystem = GetGameInstance()->GetSubsystem<UGridSystem>();
 	GridSystem->CreateGrids(GridCell, FVector2D(0, 0), 10, 10);
-	GridSystem->GridCells[1]->SetIsAvailable(false);
-	GridSystem->GridCells[12]->SetIsAvailable(false);
-	GridSystem->GridCells[22]->SetIsAvailable(false);
-	GridSystem->GridCells[32]->SetIsAvailable(false);
+	AGridActor* TestObs1 = GetWorld()->SpawnActor<AGridActor>(TestGridObstacle);
+	GridSystem->PlaceAnActor(TestObs1, FVector2D(1, 1));
+	AGridActor* TestObs2 = GetWorld()->SpawnActor<AGridActor>(TestGridObstacle);
+	GridSystem->PlaceAnActor(TestObs2, FVector2D(2, 1));
+	AGridActor* TestObs3 = GetWorld()->SpawnActor<AGridActor>(TestGridObstacle);
+	GridSystem->PlaceAnActor(TestObs3, FVector2D(3, 1));
+	AGridActor* TestObs4 = GetWorld()->SpawnActor<AGridActor>(TestGridObstacle);
+	GridSystem->PlaceAnActor(TestObs4, FVector2D(5, 1));
 
 	AGridActor* TestActor = GetWorld()->SpawnActor<AGridActor>(TestPlacementActor);
 	
